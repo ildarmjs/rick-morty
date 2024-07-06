@@ -8,7 +8,7 @@ const Layout = ({ children }: PropsWithChildren<unknown>) => {
 			<nav className='h-[50px] flex items-center justify-end shadow-[0px_6px_5px_0px_rgba(31,31,32,0.38)] px-[40px]'>
 				<ul className='flex  gap-[30px] text-[20px]'>
 					{ROUTES.map(item => (
-						<li>
+						<li key={item.id}>
 							<NavLink
 								to={item.path}
 								className={({ isActive }) =>
