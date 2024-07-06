@@ -1,35 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { FC } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Layout from './layout/Layout'
+import HomePage from './pages/HomePage'
+import CharactersPage from './pages/CharactersPage'
+import EpisodesPage from './pages/EpisodesPage'
+import LocationsPage from './pages/LocationsPage'
+import NotFoundPage from './pages/NotFoundPage'
+import OneCharacterPage from './pages/OneCharacterPage'
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+const App: FC = () => {
+	return (
+		<Layout>
+			<Routes>
+				<Route path='/' element={<HomePage />} />
+				<Route path='/characters' element={<CharactersPage />} />
+				<Route path='/characters/:id' element={<OneCharacterPage />} />
+				<Route path='/episodes' element={<EpisodesPage />} />
+				<Route path='/locations' element={<LocationsPage />} />
+				<Route path='*' element={<NotFoundPage />} />
+			</Routes>
+		</Layout>
+	)
 }
 
 export default App
