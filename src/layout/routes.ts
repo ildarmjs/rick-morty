@@ -15,7 +15,7 @@ export const ROUTES = [
 		name: 'Эпизоды'
 	},
 	{
-		id: 2,
+		id: 4,
 		path: '/locations',
 		name: 'Локации'
 	}
