@@ -1,7 +1,8 @@
 import { FC } from 'react'
+import Locations from '../components/locations/Locations'
 
 const LocationsPage: FC = () => {
-	return <div>LocationsPage</div>
+	return <Locations />
 }
 
 export default LocationsPage
