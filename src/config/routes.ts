@@ -4,5 +4,6 @@ export const routes = {
 	character: '/characters/:id',
 	episodes: '/episodes',
 	locations: '/locations',
+	login: '/login',
 	notFound: '*',
 };
