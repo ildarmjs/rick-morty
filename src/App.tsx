@@ -7,19 +7,47 @@ import EpisodesPage from './pages/EpisodesPage'
 import LocationsPage from './pages/LocationsPage'
 import NotFoundPage from './pages/NotFoundPage'
 import OneCharacterPage from './pages/OneCharacterPage'
+import { routes } from './config/routes'
+import AuthProvider from './context/AuthProvider'
+import LoginPage from './pages/LoginPage'
+import Private from './components/private/Private'
 
 const App: FC = () => {
 	return (
-		<Layout>
-			<Routes>
-				<Route path='/' element={<HomePage />} />
-				<Route path='/characters' element={<CharactersPage />} />
-				<Route path='/characters/:id' element={<OneCharacterPage />} />
-				<Route path='/episodes' element={<EpisodesPage />} />
-				<Route path='/locations' element={<LocationsPage />} />
-				<Route path='*' element={<NotFoundPage />} />
-			</Routes>
-		</Layout>
+		<AuthProvider>
+			<Layout>
+				<Routes>
+					<Route path={routes.home} element={<HomePage />} />
+					<Route path={routes.characters} element={<CharactersPage />} />
+					<Route
+						path={routes.character}
+						element={
+							<Private>
+								<OneCharacterPage />
+							</Private>
+						}
+					/>
+					<Route
+						path={routes.episodes}
+						element={
+							<Private>
+								<EpisodesPage />
+							</Private>
+						}
+					/>
+					<Route
+						path={routes.locations}
+						element={
+							<Private>
+								<LocationsPage />
+							</Private>
+						}
+					/>
+					<Route path={routes.login} element={<LoginPage />} />
+					<Route path={routes.notFound} element={<NotFoundPage />} />
+				</Routes>
+			</Layout>
+		</AuthProvider>
 	)
 }
 

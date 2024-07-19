@@ -7,13 +7,12 @@ interface ICharactersGridProps {
 }
 
 const CharactersGrid: FC<ICharactersGridProps> = ({ characters }) => {
-	return (
-		<div className='grid grid-cols-4 gap-4 mb-4'>
-			{characters.map(character => (
-				<CharactersCard character={character} key={character.id} />
-			))}
-		</div>
-	)
+	const renderCharacters = () => {
+		return characters.map(character => (
+			<CharactersCard character={character} key={character.id} />
+		))
+	}
+	return <div className='grid grid-cols-4 gap-4 mb-4'>{renderCharacters()}</div>
 }
 
 export default CharactersGrid
