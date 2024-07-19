@@ -1,8 +1,17 @@
 import type { PropsWithChildren } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { ROUTES } from './routes'
+import { useAuth } from '../context/AuthProvider'
 
 const Layout = ({ children }: PropsWithChildren<unknown>) => {
+	const { user, signOut } = useAuth()
+	const navigate = useNavigate()
+
+	const handleSignOut = () => {
+		signOut(() => {
+			navigate('/login', { replace: true })
+		})
+	}
 	return (
 		<div className=''>
 			<nav className='h-[50px] flex items-center justify-end shadow-[0px_6px_5px_0px_rgba(31,31,32,0.38)] px-[40px]'>
@@ -19,6 +28,11 @@ const Layout = ({ children }: PropsWithChildren<unknown>) => {
 							</NavLink>
 						</li>
 					))}
+					{user ? (
+						<button onClick={handleSignOut}>Выйти</button>
+					) : (
+						<button onClick={() => navigate('/login')}>Войти</button>
+					)}
 				</ul>
 			</nav>
 			<div>{children}</div>
