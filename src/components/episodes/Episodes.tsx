@@ -1,26 +1,38 @@
 import { FC } from 'react'
-import { useCustomState } from '../../hooks/useCustomState'
-import dbEpisodes from '../../data/episode.json'
-import ShowMoreButton from '../ui/show-more-button/ShowMoreButton'
 import { IEpisodes } from '../../interfaces/episodes'
 import Title from '../ui/title/Title'
 import EpisodeCard from './episode-card/EpisodeCard'
+import ErrorBoundary from '../error-boundary/ErrorBoundary'
+import { useInfinityScroll } from '../../hooks/useInfinityScroll'
 const Episodes: FC = () => {
-	const [state, visibleState, visibleCount, loading, handleShowMore] =
-		useCustomState(dbEpisodes)
-
+	const { items, loading, lastItemRef } = useInfinityScroll('episode')
+	const renderEpisodes = () => {
+		return items.map((episode: IEpisodes, index: number) => {
+			if (items.length === index + 1) {
+				return (
+					<ErrorBoundary>
+						<EpisodeCard episode={episode} key={episode.id} ref={lastItemRef} />
+					</ErrorBoundary>
+				)
+			} else {
+				return (
+					<ErrorBoundary>
+						<EpisodeCard episode={episode} key={episode.id} />
+					</ErrorBoundary>
+				)
+			}
+		})
+	}
 	return (
-		<div className='mt-[80px] max-w-[1300px] mx-auto'>
-			<Title title='Эпизоды' />
-			<div className='grid grid-cols-4 gap-4 mb-4'>
-				{visibleState.map((episode: IEpisodes) => (
-					<EpisodeCard episode={episode} key={episode.id} />
-				))}
+		<ErrorBoundary>
+			<div className='mt-[80px] max-w-[1300px] mx-auto'>
+				<Title title='Эпизоды' />
+				<div className='grid grid-cols-4 gap-4 mb-4'>
+					{renderEpisodes()}
+					{loading && <div>Загрузка...</div>}
+				</div>
 			</div>
-			{visibleCount < state.length && (
-				<ShowMoreButton onClick={handleShowMore} loading={loading} />
-			)}
-		</div>
+		</ErrorBoundary>
 	)
 }
 

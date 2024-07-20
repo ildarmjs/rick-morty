@@ -1,27 +1,37 @@
 import { FC } from 'react'
-import { useCustomState } from '../../hooks/useCustomState'
-import dbLocations from '../../data/location.json'
 import Title from '../ui/title/Title'
-import { ILocations } from '../../interfaces/locations'
-import ShowMoreButton from '../ui/show-more-button/ShowMoreButton'
 import LocationCard from './location-card/LocationCard'
-const Locations: FC = () => {
-	const [state, visibleState, visibleCount, loading, handleShowMore] =
-		useCustomState(dbLocations)
-	console.log(state)
+import { useInfinityScroll } from '../../hooks/useInfinityScroll'
+import { ILocations } from '../../interfaces/locations'
+import ErrorBoundary from '../error-boundary/ErrorBoundary'
 
+const Locations: FC = () => {
+	const { items, loading, lastItemRef } = useInfinityScroll('location')
+	const renderLocations = () => {
+		return items.map((location: ILocations, index: number) => {
+			if (items.length === index + 1) {
+				return (
+					<LocationCard
+						location={location}
+						key={location.id}
+						ref={lastItemRef}
+					/>
+				)
+			} else {
+				return <LocationCard location={location} key={location.id} />
+			}
+		})
+	}
 	return (
-		<div className='mt-[80px] max-w-[1300px] mx-auto'>
-			<Title title='Локации' />
-			<div className='grid grid-cols-4 gap-4 mb-4'>
-				{visibleState.map((location: ILocations) => (
-					<LocationCard location={location} key={location.id} />
-				))}
+		<ErrorBoundary>
+			<div className='mt-[80px] max-w-[1300px] mx-auto'>
+				<Title title='Локации' />
+				<div className='grid grid-cols-4 gap-4 mb-4'>
+					{renderLocations()}
+					{loading && <div>Загрузка...</div>}
+				</div>
 			</div>
-			{visibleCount < state.length && (
-				<ShowMoreButton onClick={handleShowMore} loading={loading} />
-			)}
-		</div>
+		</ErrorBoundary>
 	)
 }
 
