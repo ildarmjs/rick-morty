@@ -1,29 +1,29 @@
 import { FC } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './layout/Layout'
-import HomePage from './pages/HomePage'
-import CharactersPage from './pages/CharactersPage'
-import EpisodesPage from './pages/EpisodesPage'
-import LocationsPage from './pages/LocationsPage'
-import NotFoundPage from './pages/NotFoundPage'
-import OneCharacterPage from './pages/OneCharacterPage'
 import { routes } from './config/routes'
 import AuthProvider from './context/AuthProvider'
-import LoginPage from './pages/LoginPage'
 import Private from './components/private/Private'
+import DynamicComponent from './components/dynamic-component/DynamicComponent'
 
 const App: FC = () => {
 	return (
 		<AuthProvider>
 			<Layout>
 				<Routes>
-					<Route path={routes.home} element={<HomePage />} />
-					<Route path={routes.characters} element={<CharactersPage />} />
+					<Route
+						path={routes.home}
+						element={<DynamicComponent name='HomePage' />}
+					/>
+					<Route
+						path={routes.characters}
+						element={<DynamicComponent name='CharactersPage' />}
+					/>
 					<Route
 						path={routes.character}
 						element={
 							<Private>
-								<OneCharacterPage />
+								<DynamicComponent name='OneCharacterPage' />
 							</Private>
 						}
 					/>
@@ -31,7 +31,8 @@ const App: FC = () => {
 						path={routes.episodes}
 						element={
 							<Private>
-								<EpisodesPage />
+								<DynamicComponent name='EpisodesPage' />
+								{/* <EpisodesPage /> */}
 							</Private>
 						}
 					/>
@@ -39,12 +40,19 @@ const App: FC = () => {
 						path={routes.locations}
 						element={
 							<Private>
-								<LocationsPage />
+								<DynamicComponent name='LocationsPage' />
+								{/* <LocationsPage /> */}
 							</Private>
 						}
 					/>
-					<Route path={routes.login} element={<LoginPage />} />
-					<Route path={routes.notFound} element={<NotFoundPage />} />
+					<Route
+						path={routes.login}
+						element={<DynamicComponent name='LoginPage' />}
+					/>
+					<Route
+						path={routes.notFound}
+						element={<DynamicComponent name='NotFoundPage' />}
+					/>
 				</Routes>
 			</Layout>
 		</AuthProvider>

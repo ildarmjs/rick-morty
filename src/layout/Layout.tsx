@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react'
+import { Suspense, type PropsWithChildren } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { ROUTES } from './routes'
 import { useAuth } from '../context/AuthProvider'
@@ -35,7 +35,9 @@ const Layout = ({ children }: PropsWithChildren<unknown>) => {
 					)}
 				</ul>
 			</nav>
-			<div>{children}</div>
+			<Suspense fallback='Loading...'>
+				<div>{children}</div>
+			</Suspense>
 		</div>
 	)
 }
