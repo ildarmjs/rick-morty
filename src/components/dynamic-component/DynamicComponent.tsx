@@ -5,7 +5,7 @@ interface IDynamicComponentProps {
 }
 
 const ComponentName = (name: string) => {
-	return lazy(() => import(`../../pages/${name}`))
+	return lazy(() => import(`../../pages/${name}.tsx`))
 }
 
 const DynamicComponent: FC<IDynamicComponentProps> = props => {

@@ -6,7 +6,7 @@ interface IOneCharacterProps {
 
 const OneCharacter: FC<IOneCharacterProps> = ({ charId }) => {
 	const foundCharacter = dbCharacters.find(char => char.id === Number(charId))
-	const [character, setCharacter] = useState(foundCharacter)
+	const [character] = useState(foundCharacter)
 	console.log(character)
 
 	return (
