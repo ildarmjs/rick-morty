@@ -1,5 +1,5 @@
-import { createContext, FC, useContext, useState, ReactNode } from 'react'
-import { IAuthContext, IUser } from '../interfaces/auth'
+import {createContext, FC, ReactNode, useContext, useState} from 'react'
+import {IAuthContext, IUser} from '../interfaces/auth'
 
 const AuthContext = createContext<IAuthContext | null>(null)
 
@@ -12,7 +12,7 @@ export const useAuth = (): IAuthContext => {
 }
 
 interface IAuthProvider {
-	children: ReactNode
+		children: ReactNode
 }
 
 const AuthProvider: FC<IAuthProvider> = ({ children }) => {

@@ -1,5 +1,8 @@
 import { forwardRef } from 'react'
+import { Card, Typography } from 'antd'
 import { ILocations } from '../../../interfaces/locations'
+
+const { Text } = Typography
 
 interface ILocationCardProps {
 	location: ILocations
@@ -8,16 +11,23 @@ interface ILocationCardProps {
 const LocationCard = forwardRef<HTMLDivElement, ILocationCardProps>(
 	({ location }, ref) => {
 		return (
-			<div ref={ref} className='p-4 bg-zinc-700 shadow-inner rounded-lg'>
-				<div className='text-[18px] font-semibold'>
-					Название: {location.name}
-				</div>
-				<div>
-					<span className='font-semibold'>Измерение:</span> {location.dimension}
-				</div>
-				<div>
-					<span className='font-semibold'>Тип:</span> {location.type}
-				</div>
+			<div ref={ref}>
+				<Card
+					title={<Text strong>Название: {location.name}</Text>}
+					style={{ backgroundColor: '#404040', color: 'white' }}
+					headStyle={{
+						color: 'white',
+						borderBottom: '1px solid rgba(255,255,255,0.1)'
+					}}
+					bodyStyle={{ padding: '12px 24px' }}
+				>
+					<p>
+						<Text strong>Измерение:</Text> <Text>{location.dimension}</Text>
+					</p>
+					<p>
+						<Text strong>Тип:</Text> <Text>{location.type}</Text>
+					</p>
+				</Card>
 			</div>
 		)
 	}
