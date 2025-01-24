@@ -1,36 +1,38 @@
 import { FC } from 'react'
+import { Col, Row, Typography, Spin } from 'antd'
 import { IEpisodes } from '../../interfaces/episodes'
-import Title from '../ui/title/Title'
-import EpisodeCard from './episode-card/EpisodeCard'
 import ErrorBoundary from '../error-boundary/ErrorBoundary'
 import { useInfinityScroll } from '../../hooks/useInfinityScroll'
+import EpisodeCard from './episode-card/EpisodeCard'
+
+const { Title } = Typography
+
 const Episodes: FC = () => {
 	const { items, loading, lastItemRef } = useInfinityScroll('episode')
+
 	const renderEpisodes = () => {
-		return items.map((episode: IEpisodes, index: number) => {
-			if (items.length === index + 1) {
-				return (
-					<ErrorBoundary>
-						<EpisodeCard episode={episode} key={episode.id} ref={lastItemRef} />
-					</ErrorBoundary>
-				)
-			} else {
-				return (
-					<ErrorBoundary>
-						<EpisodeCard episode={episode} key={episode.id} />
-					</ErrorBoundary>
-				)
-			}
-		})
+		return items.map((episode: IEpisodes, index: number) => (
+			<Col xs={24} sm={12} md={8} lg={6} key={episode.id}>
+				<ErrorBoundary>
+					<EpisodeCard
+						episode={episode}
+						ref={items.length === index + 1 ? lastItemRef : null}
+					/>
+				</ErrorBoundary>
+			</Col>
+		))
 	}
+
 	return (
 		<ErrorBoundary>
-			<div className='mt-[80px] max-w-[1300px] mx-auto'>
-				<Title title='Эпизоды' />
-				<div className='grid grid-cols-4 gap-4 mb-4'>
-					{renderEpisodes()}
-					{loading && <div>Загрузка...</div>}
-				</div>
+			<div style={{ maxWidth: 1300, margin: '80px auto' }}>
+				<Title level={2}>Эпизоды</Title>
+				<Row gutter={[16, 16]}>{renderEpisodes()}</Row>
+				{loading && (
+					<div style={{ textAlign: 'center', marginTop: 20 }}>
+						<Spin size='large' />
+					</div>
+				)}
 			</div>
 		</ErrorBoundary>
 	)
